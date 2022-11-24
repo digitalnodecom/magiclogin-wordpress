@@ -22,10 +22,14 @@ if (defined('WP_ENV') && WP_ENV !== 'production' ) {
  */
 add_action( 'init', function() {
 
-    if( !isset($_GET['type']) && $_GET['type'] !== 'magic' ) {
+    if( !isset($_GET['type']) ) {
         return;
     }
 
+    if ($_GET['type'] !== 'magic') {
+        return;
+    }
+    
     if( empty( $_GET['token'] ) ) {
         return;
     }
