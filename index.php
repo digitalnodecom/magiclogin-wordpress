@@ -82,6 +82,6 @@ add_action( 'init', function() {
         }
     }
 
-    wp_redirect( site_url() );
+    wp_redirect( parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) );
     exit();
 } );
