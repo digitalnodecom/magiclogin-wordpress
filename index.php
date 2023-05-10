@@ -40,6 +40,21 @@ add_action( 'init', function() {
     }
 
     $token = $_GET['token'];
+    $magicresponse = magic_decode_token($token);
+    magic_auth_user($magicresponse);
+
+    wp_redirect( parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) );
+    exit();
+} );
+
+
+/**
+ * Function for decoding a Magic token
+ * @param $token
+ * @return mixed|void
+ */
+
+function magic_decode_token($token) {
     $url = "https://magic.mk/api/validate/";
     $xapikey = MAGIC_API_KEY;
     $body = json_encode([
@@ -60,7 +75,16 @@ add_action( 'init', function() {
         return;
     }
     $magicresponse = json_decode( wp_remote_retrieve_body( $h ) );
+    return $magicresponse;
+}
 
+/**
+ * Function to authenticate the user
+ * @param $magicresponse
+ * @return void
+ */
+
+function magic_auth_user($magicresponse) {
     // Log the user in
     $user = get_user_by("email", $magicresponse->email);
     if( !empty($user) ) {
@@ -69,7 +93,6 @@ add_action( 'init', function() {
         wp_set_auth_cookie( $user->ID, true, is_ssl() );
         update_user_caches( $user );
     } else {
-
         $email = sanitize_text_field($magicresponse->email);
         $username = $email;
         $password = uniqid() . wp_generate_uuid4();
@@ -81,7 +104,4 @@ add_action( 'init', function() {
             @wp_set_auth_cookie($user_id);
         }
     }
-
-    wp_redirect( parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) );
-    exit();
-} );
+}
