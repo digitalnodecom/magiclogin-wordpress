@@ -41,7 +41,12 @@ add_action( 'init', function() {
 
     $token = $_GET['token'];
     $magicresponse = magic_decode_token($token);
+
+    do_action( 'magic_link_preauth', $magicresponse );
+
     magic_auth_user($magicresponse);
+
+    do_action( 'magic_link_auth', $magicresponse );
 
     wp_redirect( parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) );
     exit();
@@ -74,7 +79,9 @@ function magic_decode_token($token) {
         echo "Something went wrong with the Magic Login plugin.";
         return;
     }
+
     $magicresponse = json_decode( wp_remote_retrieve_body( $h ) );
+
     return $magicresponse;
 }
 
