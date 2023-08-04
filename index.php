@@ -15,6 +15,10 @@ if (defined('WP_ENV') && WP_ENV !== 'production' ) {
         $args['sslverify'] = false;
         return $args;
     }, 10, 2 );
+
+    $magic_url = 'https://magic.mk';
+    if(file_exists(__DIR__.'/local.php'))
+        require_once __DIR__.'/local.php';
 }
 
 /**
@@ -60,7 +64,8 @@ add_action( 'init', function() {
  */
 
 function magic_decode_token($token) {
-    $url = "https://magic.mk/api/validate/";
+    global $magic_url;
+    $url = "$magic_url/api/validate/";
     $xapikey = MAGIC_API_KEY;
     $body = json_encode([
         'token' => $token
