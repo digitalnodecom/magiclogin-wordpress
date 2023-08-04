@@ -111,7 +111,7 @@ function magic_auth_user($magicresponse) {
         $user_id = wp_create_user($username, $password, $email);
         if (!is_wp_error($user_id)) {
             $user = get_user_by('id', $user_id);
-            $user->set_role('subscriber');
+            $user->set_role(get_option('default_role'));
             wp_set_current_user($user_id);
             @wp_set_auth_cookie($user_id);
         }
