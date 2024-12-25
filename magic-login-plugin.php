@@ -139,7 +139,7 @@ class MagicLoginPlugin
             // Create new user
             $username = $email ? $email : 'user_' . wp_generate_password(5, false);
             $user_id = wp_create_user($username, wp_generate_password(), $email);
-
+            $user->set_role(get_option('default_role'));
             if (!is_wp_error($user_id)) {
                 $user = get_user_by('ID', $user_id);
                 if ($phone) {
@@ -149,7 +149,6 @@ class MagicLoginPlugin
         }
 
         if ($user && !is_wp_error($user)) {
-            $user->set_role(get_option('default_role'));
             wp_set_current_user($user->ID);
             wp_set_auth_cookie($user->ID);
             do_action('wp_login', $user->user_login, $user);
