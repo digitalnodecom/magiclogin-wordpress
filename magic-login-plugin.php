@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: MagicMK Authentication
- * Description: Authentication using magic.mk
- * Version: 1.0
- * Author: dushan@digitalnode.com
+ * Plugin Name: Magic Login
+ * Description: Authentication using Magic.mk
+ * Version: 1.1
+ * Author: DigitalNode
  */
 
 if (!defined('ABSPATH')) {
