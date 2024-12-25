@@ -20,7 +20,7 @@
 <?php do_action('magic_login_after_form'); ?>
 <script>
     window.magicmk = {
-        project_slug: '<?php echo esc_js(get_query_var('magic_login_project_key')); ?>',
+        project_slug: <?php echo defined('MAGIC_LOGIN_PROJECT_KEY') ? MAGIC_LOGIN_PROJECT_KEY : '' ?>,
         language: '',
         redirect_url: '',
         params: {
@@ -28,7 +28,7 @@
         }
     };
 </script>
-<script src="<?php echo esc_url(get_query_var('magic_url')); ?>/magicmk_integration_min.js"></script>
+<script src="https://magic.mk/magicmk_integration_min.js"></script>
 <?php wp_footer(); ?>
 <?php do_action('magic_login_footer'); ?>
 </body>
